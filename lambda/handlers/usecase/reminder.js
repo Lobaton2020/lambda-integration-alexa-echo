@@ -1,4 +1,5 @@
 const axios = require("axios")
+const moment = require("moment-timezone")
 const URL_API = "https://graphql-api-theta.vercel.app/reminders"
 
 const getRemindersFromApi = async (date) => {
@@ -9,7 +10,7 @@ const getRemindersFromApi = async (date) => {
         }
         return data
     } catch (error) {
-        console.log(`ERROR::${getRemindersFromApi.name}_::${error.message}`)
+        console.log(`ERROR_AXIOS::${getRemindersFromApi.name}_::${error.message}`)
         return []
     }
 }
@@ -18,10 +19,9 @@ const getRemindersFromApi = async (date) => {
  * data: { description:string, hour, minute: number }
 */
 const buildRemindersBody = ({ description, hour, minute }) => {
-    const currentTime = moment().tz("America/Los_Angeles")
-    const UTC_GMT = -5;
+    const currentTime = moment().tz("America/New_York")
     const scheduledTime = currentTime.set({
-        hour: `${hour + UTC_GMT}`.padStart(2, 0),
+        hour: `${hour}`.padStart(2, 0),
         minute: `${minute}`.padStart(2, 0),
         second: "00"
     }).format('YYYY-MM-DDTHH:mm:ss')
@@ -30,7 +30,7 @@ const buildRemindersBody = ({ description, hour, minute }) => {
         "trigger": {
             "type": "SCHEDULED_ABSOLUTE",
             "scheduledTime": scheduledTime,
-            "timeZoneId": "America/Los_Angeles"
+            "timeZoneId": "America/New_York"
         },
         "alertInfo": {
             "spokenInfo": {

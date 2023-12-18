@@ -3,14 +3,14 @@
  * Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
  * session persistence, api calls, and more.
  * */
+const Alexa = require('ask-sdk-core');
 const { LaunchRequestHandler } = require("./handlers/launch")
-const { CreateReminderIntentHandler } = require("./handlers/reminder")
-const { HelpIntentHandler } = require("./handlers/common/help")
 const { HelpIntentHandler } = require("./handlers/common/help")
 const { CancelAndStopIntentHandler } = require("./handlers/common/cancel")
 const { FallbackIntentHandler } = require("./handlers/common/fallback")
 const { SessionEndedRequestHandler } = require("./handlers/common/sessionEnded")
 const { IntentReflectorHandler } = require("./handlers/common/interceptor")
+const { ErrorHandler } = require("./handlers/common/error")
 
 
 /**
@@ -21,7 +21,6 @@ const { IntentReflectorHandler } = require("./handlers/common/interceptor")
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        CreateReminderIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,
